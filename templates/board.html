@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Caça Palavras</title>
+    <!-- Bootstrap CDN -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+td {
+  text-align: center;
+}
+body {
+  background-color: lightskyblue;
+}
+</style>
+  </head>
+  <body>
+  <section>
+    <div class="container">
+      <div class="jumbotron">
+    <p>Seja bem vindo ao Caça Palavras<br>
+      Para jogar informe as coordenadas do ponto inicial e final da palavra encontrada<br>
+      Caso a resposta seja a correta, lhe informamos a palavra escolhida</p>
+    <table>
+    {% for i in range(0, boardlength) %}
+    <tr>
+      {% for j in range(0, boardlength) %}
+
+      <td>{{ boardarray[i][j] }}</td>
+
+      {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+
+<form action="{{ url_for('choice') }}" method="post">
+    <input type="text" name="firstx" value="X da primeira palavra">
+    <input type="text" name="firsty" value="Y da primeira palavra">
+    <input type="text" name="lastx" value="X da última palavra">
+    <input type="text" name="lasty" value="Y da última palavra">
+    <input type="hidden" name="boardarray" value="{{ boardarray}}">
+    <input type="hidden" name="boardlength" value="{{ boardlength }}">
+    <input type="hidden" name="words" value="{{ words }}">
+    <input type="submit">
+  </form>
+</div>
+</div>
+{% block answers %}
+{% endblock %}
+</section>
+  </body>
+</html>
