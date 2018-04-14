@@ -1,0 +1,10 @@
+{% extends 'board.html' %}
+
+{% block answers %}
+{{ message }}
+<ul>
+{% for answer in answers %}
+  <li>{{answer}}</li>
+  {% endfor %}
+</ul>
+{% endblock %}
