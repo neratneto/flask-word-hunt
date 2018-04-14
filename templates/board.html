@@ -27,7 +27,7 @@ body {
       Caso a resposta seja a correta, lhe informamos a palavra escolhida</p>
     <table>
     {% for i in range(0, boardlength) %}
-    <tr>
+    <tr>i
       {% for j in range(0, boardlength) %}
 
       <td>{{ boardarray[i][j] }}</td>
@@ -37,20 +37,49 @@ body {
     {% endfor %}
 </table>
 
-<form action="{{ url_for('choice') }}" method="post">
-    <input type="text" name="firstx" value="X da primeira palavra">
-    <input type="text" name="firsty" value="Y da primeira palavra">
-    <input type="text" name="lastx" value="X da última palavra">
-    <input type="text" name="lasty" value="Y da última palavra">
-    <input type="hidden" name="boardarray" value="{{ boardarray}}">
+
+    <input type="text" name="firstx" value="0">
+    <input type="text" name="firsty" value="0">
+    <input type="text" name="lastx" value="0">
+    <input type="text" name="lasty" value="0">
+    <input type="hidden" name="boardarray" value="{{ boardarray }}">
     <input type="hidden" name="boardlength" value="{{ boardlength }}">
     <input type="hidden" name="words" value="{{ words }}">
-    <input type="submit">
-  </form>
+    <input onclick="checkAnswer()" type="submit">
+
 </div>
 </div>
-{% block answers %}
-{% endblock %}
+<div class="container">
+  <div class="jumbotron">
+    <ul id="answers">
+    </ul>
+  </div>
+</div>
 </section>
+
+
+<!-- jQuery library -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="{{ url_for('static', filename='jquery.js') }}">\x3C/script>')</script>
+<!--Bootstrap -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script type=text/javascript>
+  $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
+<script>
+function checkAnswer() {
+  $.get($SCRIPT_ROOT + '/choice', {
+          firstx: $('input[name="firstx"]').val(),
+          firsty: $('input[name="firsty"]').val(),
+          lastx: $('input[name="lastx"]').val(),
+          lasty: $('input[name="lasty"]').val(),
+          boardarray: $('input[name="boardarray"]').val(),
+          boardlength: $('input[name="boardlength"]').val(),
+          words: $('input[name="words"]').val(),
+        }, function(data) {
+          $("#answers").append("<li>" + data.result + "</li>");
+        }, 'json');
+};
+</script>
   </body>
 </html>

@@ -123,24 +123,24 @@ class Board:
             print(" " + str(item), end="")
         print("\n                                   x")
 
-    def findSequence(self, a, b):
+    def findSequence(boardarray, words, a, b):
         if a[0] == b[0]:
-            try:
-                chosen = str().join(self.boardarray[a[0]][a[1]:(b[1] + 1)])
-                self.words.index(chosen)
-                return chosen
-            except (ValueError, IndexError):
-                return False
+            #try:
+            chosen = str().join(boardarray[a[0]][a[1]:(b[1] + 1)])
+            words.index(chosen)
+            return chosen
+            #except (ValueError, IndexError):
+            #    return False
         elif a[1] == b[1]:
             auxlist = []
-            try:
-                for x in range(a[0], (b[0] + 1)):
-                    auxlist.append(self.boardarray[x][a[1]])
-                chosen = str().join(auxlist)
-                self.words.index(chosen)
-                return chosen
-            except (ValueError, IndexError):
-                return False
+            #try:
+            for x in range(a[0], (b[0] + 1)):
+                auxlist.append(boardarray[x][a[1]])
+            chosen = str().join(auxlist)
+            words.index(chosen)
+            return chosen
+            #except (ValueError, IndexError):
+            #    return False
         else:
             return False
 
