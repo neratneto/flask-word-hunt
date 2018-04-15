@@ -6,8 +6,15 @@ import time
 
 class Board:
     def __init__(self, prewords):
-        self.boardlength = len(Board.getWords(prewords))
-        self.words = random.sample(Board.getWords(prewords), math.ceil(self.boardlength / 2))  # I'll use half of the possible words picked randomly, so they all fit in the board
+        if len(prewords) < 5:
+            self.words = Board.getWords(prewords, type="small")
+            self.boardlength = 10
+        elif 5 <= len(prewords) < 10:
+            self.words = random.sample(Board.getWords(prewords, type="small"), 5)
+            self.boardlength = 10
+        else:
+            self.words = random.sample(Board.getWords(prewords), math.ceil(self.boardlength / 2))
+            self.boardlength = len(Board.getWords(prewords))
         self.boardarray = self.createBoardArray()
 
     def createBoardArray(self):
@@ -50,12 +57,16 @@ class Board:
 
         return boardarray
 
-    def getWords(prewords):
+    def getWords(prewords, type="default"):
         words = []
         for word in prewords:
             words.append(word.upper())
-        if len(max(words, key=len)) > len(words):
-            raise ImportError("houve um erro com as palavras enviadas")
+        if type == "small":
+            if len(max(words, key=len)) > 10:
+                raise ImportError("a maior palavra da lista é maior que o tabuleiro")
+        else:
+            if len(max(words, key=len)) > len(words):
+                raise ImportError("a maior palavra da lista é maior que o tabuleiro")
         return words
 
     def randomPosition(self):
