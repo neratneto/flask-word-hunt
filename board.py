@@ -13,8 +13,8 @@ class Board:
             self.words = random.sample(Board.getWords(prewords, type="small"), 5)
             self.boardlength = 10
         else:
-            self.words = random.sample(Board.getWords(prewords), math.ceil(self.boardlength / 2))
             self.boardlength = len(Board.getWords(prewords))
+            self.words = random.sample(Board.getWords(prewords), math.ceil(self.boardlength / 2))
         self.boardarray = self.createBoardArray()
 
     def createBoardArray(self):
