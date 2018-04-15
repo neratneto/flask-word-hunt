@@ -23,16 +23,34 @@ def board():
     if request.method == 'POST':
         file = request.files['file']
         if file and allowed_file(file.filename):
-            txtfile = file.read()
+            txtfile = str(file.read())
+            filestring = txtfile[2:(len(txtfile) - 1)]
+            prewords = [i for i in (filestring.split("\\n")) if i != '']
             try:
                 global BoardClass
-                BoardClass = Board(file=str(txtfile))
+                BoardClass = Board(prewords=prewords)
                 boardarray = BoardClass.boardarray
                 boardlength = BoardClass.boardlength
                 words = BoardClass.words
                 return render_template('board.html', boardarray=boardarray, boardlength=boardlength, words=words)
             except (ValueError, IndexError, ImportError):
-                return "A lista não é adequada"
+                return render_template('home.html', message="A lista enviada não é adequada")
+
+
+@app.route("/lista", methods=['POST'])
+def lista():
+    if request.method == 'POST':
+        lista = request.form['lista']
+        prewords = lista.split()
+        try:
+            global BoardClass
+            BoardClass = Board(prewords=prewords)
+            boardarray = BoardClass.boardarray
+            boardlength = BoardClass.boardlength
+            words = BoardClass.words
+            return render_template('board.html', boardarray=boardarray, boardlength=boardlength, words=words)
+        except (ValueError, IndexError, ImportError):
+            return render_template('home.html', message="A lista enviada não é adequada")
 
 
 @app.route("/choice", methods=['GET', 'POST'])
@@ -55,7 +73,7 @@ def choice():
     if answer:
         return jsonify(result=answer)
     else:
-        return jsonify(result="deu ruim piazada")
+        return jsonify(result="Tente novamente")
 
 
 if __name__ == "__main__":

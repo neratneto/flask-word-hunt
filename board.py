@@ -5,9 +5,9 @@ import time
 
 
 class Board:
-    def __init__(self, file):
-        self.boardlength = len(Board.getWords(file))
-        self.words = random.sample(Board.getWords(file), math.ceil(self.boardlength / 2))  # I'll use half of the possible words picked randomly, so they all fit in the board
+    def __init__(self, prewords):
+        self.boardlength = len(Board.getWords(prewords))
+        self.words = random.sample(Board.getWords(prewords), math.ceil(self.boardlength / 2))  # I'll use half of the possible words picked randomly, so they all fit in the board
         self.boardarray = self.createBoardArray()
 
     def createBoardArray(self):
@@ -26,7 +26,7 @@ class Board:
                     except ValueError:
                         count += 1
                         if count > self.boardlength:
-                            raise Exception("as palavras utilizadas tem tamanho incompatível")
+                            raise ValueError("as palavras utilizadas tem tamanho incompatível")
                         continue
                     break
             else:  # Writes the word in the boardarray horizontally using a random position
@@ -39,7 +39,7 @@ class Board:
                     except ValueError:
                         count += 1
                         if count > self.boardlength:
-                            raise Exception("as palavras utilizadas tem tamanho incompatível")
+                            raise ValueError("as palavras utilizadas tem tamanho incompatível")
                         else:
                             continue
                     break
@@ -50,9 +50,7 @@ class Board:
 
         return boardarray
 
-    def getWords(file):
-        filestring = str(file[2:(len(file) - 1)])
-        prewords = filestring.split("\\n")
+    def getWords(prewords):
         words = []
         for word in prewords:
             words.append(word.upper())

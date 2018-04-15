@@ -2,59 +2,105 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Caça Palavras</title>
-    <!-- Bootstrap CDN -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <style>
-table, th, td {
-    border: 1px solid black;
+table, tr, td {
+    border: 1px solid rgb(0, 134, 179);
     border-collapse: collapse;
+    font-size: 18px;
 }
-td {
-  text-align: center;
+table.center {
+    margin-left:auto;
+    margin-right:auto;
+}
+.jumbotron {
+  background-color: rgb(242, 252, 255);
+  padding-top: 14px;
+}
+.title {
+  letter-spacing: 7px;
+  padding-top: 1px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid lightgray;
 }
 body {
-  background-color: lightskyblue;
+  background-image: url("../static/img/blue-background.png");
+  background-attachment: scroll;
+  background-size: contain;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
 }
 </style>
   </head>
   <body>
-  <section>
+<section style="margin-top:30px">
     <div class="container">
       <div class="jumbotron">
-    <p>Seja bem vindo ao Caça Palavras<br>
-      Para jogar informe as coordenadas do ponto inicial e final da palavra encontrada<br>
-      Caso a resposta seja a correta, lhe informamos a palavra escolhida</p>
-    <table>
-    {% for i in range(0, boardlength) %}
-    <tr>
-      {% for j in range(0, boardlength) %}
+        <div>
+          <h2 class="title">Seja bem vindo ao Caça Palavras</h2>
+          <p>Para jogar informe as coordenadas do ponto inicial e final da palavra encontrada<br>
+          Caso a resposta esteja a correta, ela será adicionada à lista de acertos</p>
+          <div>
+            <div>
+              <table class="center">
+                <tr>
+                  <td><font color="gray"> - </font></td>
+                  {% for x in range(0, boardlength) %}
+                  <td><font color="gray">{{ x }}</font></td>
+                  {% endfor %}
+                  <td><font color="gray"> - </font></td>
+                </tr>
+                {% for i in range(0, boardlength) %}
+                <tr>
+                  <td><font color="gray">{{ i }}</font></td>
+                  {% for j in range(0, boardlength) %}
+                  <td>{{ boardarray[i][j] }}</td>
+                  {% endfor %}
+                  <td><font color="gray">{{ i }}</font></td>
+                </tr>
+                {% endfor %}
+                <tr>
+                  <td><font color="gray"> - </font></td>
+                  {% for x in range(0, boardlength) %}
+                  <td><font color="gray">{{ x }}</font></td>
+                  {% endfor %}
+                  <td><font color="gray"> - </font></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-      <td>{{ boardarray[i][j] }}</td>
+  <div class="container">
+    <div class="jumbotron">
+      <div class="row">
+        <div class="col-md-6">
+          <h3 class="title">Coordenadas</h3><br>
+          <p>X da primeira letra: <input type="number" name="firstx" style="width:39px" value="0" autocomplete="off"></p>
+          <p>Y da primeira letra: <input type="number" name="firsty" style="width:39px" value="0" autocomplete="off"></p>
+          <p>X da útlima letra: <input type="number" name="lastx" style="width:39px" value="0" autocomplete="off"></p>
+          <p>Y da última letra: <input type="number" name="lasty" style="width:39px" value="0" autocomplete="off"></p>
+          <input type="hidden" name="boardarray" value="{{ boardarray }}">
+          <input type="hidden" name="boardlength" value="{{ boardlength }}">
+          <input type="hidden" name="words" value="{{ words }}">
+          <input onclick="checkAnswer()" type="submit" value="Enviar">
+        </div>
 
-      {% endfor %}
-    </tr>
-    {% endfor %}
-</table>
-
-
-    <input type="text" name="firstx" value="0">
-    <input type="text" name="firsty" value="0">
-    <input type="text" name="lastx" value="0">
-    <input type="text" name="lasty" value="0">
-    <input type="hidden" name="boardarray" value="{{ boardarray }}">
-    <input type="hidden" name="boardlength" value="{{ boardlength }}">
-    <input type="hidden" name="words" value="{{ words }}">
-    <input onclick="checkAnswer()" type="submit">
-
-</div>
-</div>
-<div class="container">
-  <div class="jumbotron">
-    <ul id="answers">
-    </ul>
+        <div class="col-md-6">
+          <h3 class="title">Acertos</h3><br>
+          <ul id="answers"></ul>
+          <h5 id="tryagain"><font color="crimson">Tente novamente</font></h5>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+
 </section>
 
 
@@ -77,9 +123,17 @@ function checkAnswer() {
           boardlength: $('input[name="boardlength"]').val(),
           words: $('input[name="words"]').val(),
         }, function(data) {
-          $("#answers").append("<li>" + data.result + "</li>");
+          if (data.result == "Tente novamente") {
+            $("#tryagain").hide();
+            $("#tryagain").show(900);
+          }
+          else {
+            $("#tryagain").hide();
+            $("#answers").append("<li>" + data.result + "</li>");
+          }
         }, 'json');
 };
+$("#tryagain").hide();
 </script>
   </body>
 </html>
