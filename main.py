@@ -53,22 +53,22 @@ def lista():
             return render_template('home.html', message="A lista enviada não é adequada")
 
 
-@app.route("/choice", methods=['GET', 'POST'])
+@app.route("/choice", methods=['POST'])
 def choice():
-    firstx = int(request.args.get('firstx'))
-    firsty = int(request.args.get('firsty'))
-    lastx = int(request.args.get('lastx'))
-    lasty = int(request.args.get('lasty'))
+    firstx = int(request.values.get('firstx'))
+    firsty = int(request.values.get('firsty'))
+    lastx = int(request.values.get('lastx'))
+    lasty = int(request.values.get('lasty'))
     first = [firsty, firstx]
     last = [lasty, lastx]
-    boardlength = int(request.args.get('boardlength'))
-    preboardarray = request.args.get('boardarray').replace("[", "").replace("]", "").replace(", '", "").replace("'", "")
+    boardlength = int(request.values.get('boardlength'))
+    preboardarray = request.values.get('boardarray').replace("[", "").replace("]", "").replace(", '", "").replace("'", "")
     boardarray = []
     for i in range(0, boardlength):
         vector = preboardarray[0:boardlength]
         preboardarray = preboardarray.replace(vector, "")
         boardarray.append(list(vector))
-    words = request.args.get('words').replace("['", "").replace("']", "").replace(", '", "").split("'")
+    words = request.values.get('words').replace("['", "").replace("']", "").replace(", '", "").split("'")
     answer = Board.findSequence(boardarray, words, first, last)
     if answer:
         return jsonify(result=answer)

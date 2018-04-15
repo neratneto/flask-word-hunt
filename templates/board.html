@@ -43,7 +43,7 @@ body {
         <div>
           <h2 class="title">Seja bem vindo ao Caça Palavras</h2>
           <p>Para jogar informe as coordenadas do ponto inicial e final da palavra encontrada<br>
-          Caso a resposta esteja a correta, ela será adicionada à lista de acertos</p>
+          Caso a resposta esteja correta, ela será adicionada à lista de acertos</p>
           <div>
             <div>
               <table class="center">
@@ -114,7 +114,7 @@ body {
 </script>
 <script>
 function checkAnswer() {
-  $.get($SCRIPT_ROOT + '/choice', {
+  $.post($SCRIPT_ROOT + '/choice', {
           firstx: $('input[name="firstx"]').val(),
           firsty: $('input[name="firsty"]').val(),
           lastx: $('input[name="lastx"]').val(),
