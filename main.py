@@ -51,8 +51,9 @@ def lista():
             boardlength = BoardClass.boardlength
             words = BoardClass.words
             return render_template('board.html', boardarray=boardarray, boardlength=boardlength, words=words)
-        except (ValueError, IndexError, ImportError):
-            return render_template('home.html', message="A lista enviada não é adequada")
+        except (ValueError, IndexError, ImportError) as e:
+            message = "A lista enviada não é adequada, pois " + str(e)
+            return render_template('home.html', message=message)
 
 
 @app.route("/choice", methods=['POST'])
