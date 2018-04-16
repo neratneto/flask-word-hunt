@@ -41,9 +41,9 @@ body {
     <div class="container">
       <div class="jumbotron">
         <div>
-          <h2 class="title">Seja bem vindo ao Caça Palavras</h2>
-          <p>Para jogar informe as coordenadas do ponto inicial e final da palavra encontrada<br>
-          Caso a resposta esteja correta, ela será adicionada à lista de acertos</p>
+          <h2 class="title">Seja bem-vindo ao Caça Palavras!</h2>
+          <p>Para jogar informe as coordenadas do ponto inicial e final da palavra encontrada.<br>
+          Caso a resposta esteja correta, ela será adicionada à lista de acertos.</p>
           <div>
             <div>
               <table class="center">
@@ -129,7 +129,13 @@ function checkAnswer() {
           }
           else {
             $("#tryagain").hide();
-            $("#answers").append("<li>" + data.result + "</li>");
+            if (data.result != $("#answers").children('li').last().text()){
+              $("#answers").append("<li>" + data.result + "</li>");
+            }
+            else {
+              $("#answers").children('li').last().hide()
+              $("#answers").children('li').last().show(600)
+            };
           }
         }, 'json');
 };

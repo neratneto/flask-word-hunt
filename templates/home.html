@@ -32,14 +32,16 @@ body {
     <div class="container">
       <div class="jumbotron">
         <h2 class="title" style="letter-spacing:6px;">Caça Palavras</h2>
-        <p>Antes de começar, preciamos gerar seu tabuleiro<br>
-          Para que isso seja realizado, escolha uma das opções abaixo</p>
+        <p>Antes de começar, preciamos gerar seu tabuleiro.<br>
+          Para que isso seja realizado, escolha uma das opções abaixo:<br>
+        <font color="gray">Fique atento, caso sejam menos que 10 palavras o tabuleiro terá tamanho fixo 10x10,<br>
+          em casos de mais de 10 palavras o tabuleiro terá tamanho igual à quantidade de palavras.</font></p>
           <br>
           <h3><font color="crimson">{{ message }}</font></h3>
         <div class="row">
           <div class="col-md-6">
             <h4 class="title">Fazer upload de arquivo ".txt"</h4>
-            <p><font color="gray">Selecione o arquivo no formato .txt a ser enviado</font></p>
+            <p><font color="gray">Selecione o arquivo no formato .txt a ser enviado.</font></p>
             <form action="{{ url_for('board') }}" method="post" enctype="multipart/form-data">
                 <input class="w3-btn w3-ripple w3-round-xxlarge" type="file" name="file" style="width:99%"><br><br>
                 <input class="w3-btn w3-ripple w3-round-xxlarge" type="submit" value="Enviar">
@@ -47,7 +49,7 @@ body {
           </div>
           <div class="col-md-6">
             <h4 class="title">Escrever a lista</h4>
-            <p><font color="gray">Digite uma palavra por linha</font></p>
+            <p><font color="gray">Digite uma palavra por linha.</font></p>
             <form action="{{ url_for('lista') }}" method="post" enctype="multipart/form-data">
                 <textarea class="w3-round" name="lista" rows="8" cols="30" style="width:99%"></textarea>
                 <br><br>
